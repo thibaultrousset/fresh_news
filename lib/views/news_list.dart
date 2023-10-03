@@ -1,38 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:fresh_news/view_models/news_article_list_view_model.dart';
-import 'package:provider/provider.dart';
+import 'package:fresh_news/view_models/news_article_view_model.dart';
 
-class NewsListView extends StatefulWidget {
-  const NewsListView({super.key});
+class NewsList extends StatelessWidget {
+  const NewsList({super.key, required this.articles, required this.onSelected});
 
-  @override
-  State<NewsListView> createState() => _NewsListViewState();
-}
-
-class _NewsListViewState extends State<NewsListView> {
-  @override
-  void initState() {
-    Provider.of<NewsArticleListViewModel>(context, listen: false)
-        .populateTopHeadlines();
-    super.initState();
-  }
+  final List<NewsArticleViewModel> articles;
+  final Function(NewsArticleViewModel article) onSelected;
 
   @override
   Widget build(BuildContext context) {
-    final vm = Provider.of<NewsArticleListViewModel>(context);
-    return Scaffold(
-      appBar: AppBar(title: const Text("Top News")),
-      body: ListView.builder(
-          itemCount: vm.articles.length,
-          itemBuilder: (context, index) {
-            final article = vm.articles[index];
-            return ListTile(
-              title: Text(article.description),
-              leading: article.imageUrl != ""
-                  ? Image.network(article.imageUrl)
-                  : Image.asset("images/news_placeholder.jpeg"),
-            );
-          }),
-    );
+    return ListView.builder(
+        itemCount: articles.length,
+        itemBuilder: (context, index) {
+          final article = articles[index];
+          return ListTile(
+            onTap: () {
+              onSelected(article);
+            },
+            title: Text(article.description),
+            leading: article.imageUrl != ""
+                ? Image.network(article.imageUrl)
+                : Image.asset("images/news_placeholder.jpeg"),
+          );
+        });
   }
 }

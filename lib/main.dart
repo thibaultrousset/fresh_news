@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fresh_news/view_models/news_article_list_view_model.dart';
-import 'package:fresh_news/views/news_list.dart';
+import 'package:fresh_news/views/news_list_page.dart';
 import 'package:provider/provider.dart';
 
 void main() {
